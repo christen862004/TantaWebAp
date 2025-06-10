@@ -1,0 +1,20 @@
+﻿<!--Conteraller -->
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Image</th>
+        <th>Image</th>
+    </tr>
+    @foreach (Student item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>@item.ImageUrl</td>
+            <td>
+                <img style="width:100px" src="/Images/@item.ImageUrl" />
+            </td>
+        </tr>
+    }
+</table>

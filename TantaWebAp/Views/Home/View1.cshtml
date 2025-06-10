@@ -1,0 +1,38 @@
+﻿<h1>My First View :) :)</h1>
+<style>
+h1{
+    background-color:red;
+    color:yellow;
+}
+</style>
+<script>
+console.log("hiiiiiii");
+</script>
+<!--Using Razor Sytax-->
+<!-- Block Of Code-->
+@{
+    //valid c# code
+    int x = 10;
+    int y = x+10;
+}
+<!--Inline Code-->
+<h3>@(x+y)</h3>
+
+<!--Condition Statment (if ,switch)-->
+@if (x > y)
+{
+    <h2>x Greater than y</h2>
+}else
+{
+    <h2>X =@x Less than Y =@y</h2>
+}
+<!--Looping Statment (for ,while ,do-while ,foraech-->
+
+<ul>
+    @for (int i = 1; i < 10; i++)
+    {
+        <li>@i</li>
+    }
+</ul>
+
+
