@@ -1,4 +1,8 @@
-﻿<!--Conteraller -->
+﻿<!--Determine Ineritance genric-->
+@model List<Student>
+
+<!--Lossly Type View-->
+<!--Conteraller -->
 <table class="table table-bordered table-hover">
     <tr>
         <th>Id</th>
@@ -6,6 +10,7 @@
         <th>Image</th>
         <th>Image</th>
     </tr>
+    
     @foreach (Student item in Model)
     {
         <tr>
