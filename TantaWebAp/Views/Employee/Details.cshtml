@@ -1,0 +1,34 @@
+﻿@model Employee
+@{
+    ViewData["Title"] = "Details";//set Get monday
+}
+<!--Light dont write logic-->
+<h1>Details</h1>
+<h2 style="color:@ViewData["Color"];font-size:@ViewData["Fontsize"]">@Model.Name</h2>
+<h2 style="color:@ViewBag.Color;font-size:@ViewBag.Fontsize">@Model.Name</h2>
+
+<hr />
+<h3>@ViewData["Message"]</h3>
+<h3>@ViewBag.Message</h3>
+<hr />
+
+<h3>@(int.Parse(ViewData["Temp"].ToString())-10)</h3>
+<h3>@(ViewBag.Temp-10)</h3>
+<hr />
+
+<select class="form form-control">
+    @foreach (var item in (List<string>)ViewData["Branches"])
+    {
+        <option>@item</option>
+    }
+</select>
+<select class="form form-control">
+    @foreach (var item in ViewBag.Branches)
+    {
+        <option>@item</option>
+    }
+</select>
+<!--
+    1) Magic string "Dictioary Key"
+    2) Type Cast "UnBoxing" Performance very bad
+-->

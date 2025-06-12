@@ -10,6 +10,12 @@ namespace TantaWebAp
             // Add services to the container. day 7|8
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(45);
+            });
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline. middewares//Day2
@@ -46,6 +52,8 @@ namespace TantaWebAp
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();//open session - cookie SessionId ,write  -read
 
             app.UseAuthorization();
 

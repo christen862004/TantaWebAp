@@ -1,5 +1,24 @@
 ﻿namespace TantaWebAp.Models
 {
+    class MyController
+    {
+        private object _viewdata;
+
+        public object ViewData
+        {
+            get { return _viewdata; }
+            set { _viewdata = value; }
+        }
+        
+        public dynamic ViewBag
+        {
+            get { return _viewdata; }
+            set { _viewdata = value; }
+        }
+    }
+
+
+
     public class Parent<T>
     {
         public T Info { get; set; }
@@ -9,9 +28,7 @@
     {   }
 
     public class Child2<T> : Parent<T> { }
-  
-    
-    
+     
     public class TestClass
     {
         public int Add(int x,int y)
@@ -21,6 +38,15 @@
      
         public void Cal()
         {
+            MyController contr1=new MyController();
+            contr1.ViewData = new Student();
+            Student std1 = (Student)contr1.ViewData;//manual unboxing
+            int id = contr1.ViewBag.Id;
+
+
+
+
+
             Parent<int> obj = new Parent<int>();//close type 1)case 
             Child1 obj2 = new Child1();
             Child2<float> obj3 = new Child2<float>();

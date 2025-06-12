@@ -1,0 +1,22 @@
+﻿@* @using TantaWebAp.ViewModels
+@model EmployeeNameWithColorBrchListMsgTempViewModel 
+@model TantaWebAp.ViewModels.EmployeeNameWithColorBrchListMsgTempViewModel*@
+
+@model EmployeeNameWithColorBrchListMsgTempViewModel
+
+@{
+    ViewData["Title"] = "DetailsVM";
+}
+
+<h1>DetailsVM</h1>
+
+@Model.EmpId<br />
+@Model.EmpName<br />
+@(Model.Temp-10)<br />
+
+<select class="form form-control">
+    @foreach (var item in Model.Branches)
+    {
+        <option>@item</option>
+    }
+</select>
