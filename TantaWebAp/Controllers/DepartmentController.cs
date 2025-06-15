@@ -11,5 +11,43 @@ namespace TantaWebAp.Controllers
             List<Department> deptList= context.Departments.ToList();
             return View("Index",deptList);
         }
+        //handel anchor tag to open view
+        public IActionResult New()
+        {
+            return View("New");//Model=Null
+        }
+        //Department/SaveNew?Name=sd&ManagerName=ajha
+        //action can handel get | Post normal"default"
+        [HttpPost]
+        public IActionResult SaveNew(Department deptFromReq)//string Name,string ManagerName)
+        {
+            //restrict can handel only post methpd
+            //if(Request.Method == "POST")
+            if (deptFromReq.Name != null)
+            {
+                //save
+                context.Departments.Add(deptFromReq);//id=0
+                context.SaveChanges();//id take value from sql server
+
+                //Index(); //not normal action , cal action in antoeht controller
+                return RedirectToAction("Index");//, "Department");
+                                                    //return RedirectToAction("Index", "Department");
+            }
+            return View("New", deptFromReq);//view "New" Model :Department
+        }
+
+
+        //method "public ,non static ,not overload
+        //Department/MEthod1
+        [HttpGet]
+        public IActionResult MEthod1()//acceptedd
+        {
+            return Content("M!");
+        }
+        [HttpPost]
+        public IActionResult MEthod1(string name)//acceprter
+        {
+            return Content("M Overload");
+        }
     }
 }

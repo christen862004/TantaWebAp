@@ -12,6 +12,62 @@ namespace TantaWebAp.Controllers
         {
             
         }
+        #region Index
+        public IActionResult Index()
+        {
+            return View("Index", context.Employees.ToList());
+        }
+        #endregion
+
+        #region Edit
+        public IActionResult Edit(int id)
+        {
+            Employee empFromDb = context.Employees.FirstOrDefault(e => e.Id == id);
+
+            if(empFromDb != null) {
+                List<Department> departmentList = context.Departments.ToList();
+                //decalr
+                EmployeeWithDeptListViewModel empVM=new EmployeeWithDeptListViewModel() { 
+                Id=empFromDb.Id,
+                Name=empFromDb.Name,
+                Salary=empFromDb.Salary,
+                ImageURL=empFromDb.ImageURL,
+                DepartmentId=empFromDb.DepartmentId,
+                DeptList= departmentList,
+                Email=empFromDb.Email
+                };
+                //map
+                //send viewmodel
+                return View("Edit", empVM);
+            }
+            return NotFound();
+        }
+     
+        [HttpPost]
+        public IActionResult SaveEdit(EmployeeWithDeptListViewModel EmpFromReq)
+        {
+            if(EmpFromReq.Name!=null & EmpFromReq.Salary > 7000)
+            {
+                //org ref
+                Employee empFromDb=context.Employees.FirstOrDefault(e=>e.Id==EmpFromReq.Id);
+                //change
+                empFromDb.Salary=EmpFromReq.Salary;
+                empFromDb.Name=EmpFromReq.Name;
+                empFromDb.ImageURL=EmpFromReq.ImageURL;
+                empFromDb.Email=EmpFromReq.Email;
+                empFromDb.DepartmentId=EmpFromReq.DepartmentId;
+                //saveChange
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            //viewbag
+            EmpFromReq.DeptList = context.Departments.ToList();//refill attend "Fieldd in request data"
+            return View("Edit", EmpFromReq);
+        }
+        #endregion
+
+
+        #region Details
         public IActionResult Details(int id)
         {
             //Extra Info | not relatedd infor
@@ -55,5 +111,8 @@ namespace TantaWebAp.Controllers
             //Model : EmployeeNameWithColorBrchListMsgTempViewModel
 
         }
+        #endregion
     }
 }
+//Validation
+//Security
