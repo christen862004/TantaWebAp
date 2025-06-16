@@ -1,6 +1,24 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
+    //customize Layout
+    Layout = "_MyLayout";
+    //Layout = null;
 }
+
+<!--REnderBody-->
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+@* @section foot{
+    <h1>skdkskad</h1>
+} *@
+
+@* @section FooterSection {
+    <!--any thingg valid in html page-->
+    <h5>MEsage From View To FooterSection</h5>
+}
+ *@
+
+@section HeadSection{
+    <h5>MEssage From View To HEadsection</h5>
+}
