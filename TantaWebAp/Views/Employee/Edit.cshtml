@@ -1,11 +1,49 @@
 ﻿@model EmployeeWithDeptListViewModel
+
 @{
     ViewData["Title"] = "Edit";
+    
 }
+
+<a href="/Employee/Index">Back To List</a>
+<br />
+@Html.ActionLink("Back To List", "Index", "Employee")
+<br />
+<a asp-action="Index" asp-controller="Employee">Bakc To list</a>
+<hr />
+<a href="/Employee/Details/@Model.Id?name=@Model.Name">Details</a><br />
+@Html.ActionLink("-- Details --", "Details","Employee", new { id = Model.Id, name =Model.Name},new{@class="btn btn-success"})
+<br />
+<a asp-action="Details" asp-controller="Employee" class="btn btn-danger"
+asp-route-id="@Model.Id" asp-route-name="@Model.Name">Details</a>
+@* 
+<form >
+    @Html.AntiForgeryToken()
+</form> *@
+
+
+
+
+
+
+
 
 <h1>Edit</h1>
 <form method="post" action="/Employee/SaveEdit/@Model.Id">
     @* <input type="hidden" name="id" value="@Model.Id" /> *@
+    <div>
+        <!--Tag Hlper-->
+        <label asp-for="Email"></label>
+        <input class="form form-control" asp-for="Email"/>
+        <!--Pure HTML-->
+        @* <label>Email</label>
+        <input type="text" name="Email" id="Email" value="@Model.Email" class="form form-control" /> *@
+        <!--Pure C# Using HTML Helper Support .net non core-->
+        @* @Html.LabelFor(e=>e.Email) *@
+        @* @Html.TextBoxFor(e => e.Email, new { style = "color:red",@class="form form-control"}) *@
+        @* @Html.EditorFor(e=>e.Email) *@
+        <!--string ==> text ,int ==> number ,bool ==> Check-->
+    </div>
     <div>
         <label>Name</label>
         <input type="text" name="Name" id="Name" value="@Model.Name" class="form form-control" />
@@ -18,10 +56,7 @@
         <label>Profile Image</label>
         <input type="text" name="ImageURL" id="ImageURL" value="@Model.ImageURL" class="form form-control" />
     </div>
-    <div>
-        <label>Email</label>
-        <input type="text" name="Email" id="Email" value="@Model.Email" class="form form-control" />
-    </div>
+
     <div>
         <label>Department</label>
         @* <input type="number" name="DepartmentId" id="DepartmentId" value="@Model.DepartmentId" class="form form-control" /> *@
@@ -42,6 +77,4 @@
     </div>
     <input type="submit" value="SAve" class="btn btn-success"/>
 </form>
-
-<a href="/Employee/Index">Back To List</a>
 

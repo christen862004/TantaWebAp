@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using TantaWebAp.Models;
 using TantaWebAp.ViewModels;
 
@@ -18,6 +19,31 @@ namespace TantaWebAp.Controllers
             return View("Index", context.Employees.ToList());
         }
         #endregion
+
+        #region NEwUSing Tag Hepler
+        public IActionResult New()
+        {
+            //
+           // IEnumerable<SelectListItem> asd = context.Departments.ToList();
+            ViewBag.DeptList=context.Departments.ToList();
+            return View("New");
+        }
+        [HttpPost]//can hande only post req
+        //can handel internal req only
+        [ValidateAntiForgeryToken]
+        public IActionResult SaveNew(Employee EmpFromReq)
+        {
+            if (EmpFromReq.Name != null)
+            {
+                context.Employees.Add(EmpFromReq);
+                context.SaveChanges();
+                return RedirectToAction("Index", "Employee");
+            }
+            ViewBag.DeptList = context.Departments.ToList();
+            return View("New", EmpFromReq);
+        }
+        #endregion
+
 
         #region Edit
         public IActionResult Edit(int id)
@@ -68,7 +94,7 @@ namespace TantaWebAp.Controllers
 
 
         #region Details
-        public IActionResult Details(int id)
+        public IActionResult Details(int id,string name)
         {
             //Extra Info | not relatedd infor
             string msg = "Hello";
