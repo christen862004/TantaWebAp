@@ -7,6 +7,6 @@
         public string? ManagerName { get; set; }
         
 
-        public List<Employee> Employees { get; set; }
+        public List<Employee>? Employees { get; set; }
     }
 }

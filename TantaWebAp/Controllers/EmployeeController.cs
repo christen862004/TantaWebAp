@@ -20,6 +20,19 @@ namespace TantaWebAp.Controllers
         }
         #endregion
 
+
+        #region Validation Remote
+        //Employee/CheckSalary?Salary=10000 :GET
+        public IActionResult CheckSalary(int Salary,string Name)//name from req
+        {
+            //db any logic nt found builtin 
+            if (Salary > 7000)
+                return Json(true);//valid
+            else
+                return Json(false);
+        }
+        #endregion
+
         #region NEwUSing Tag Hepler
         public IActionResult New()
         {
@@ -29,15 +42,22 @@ namespace TantaWebAp.Controllers
             return View("New");
         }
         [HttpPost]//can hande only post req
-        //can handel internal req only
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]//can handel internal req only
         public IActionResult SaveNew(Employee EmpFromReq)
         {
-            if (EmpFromReq.Name != null)
+            if(ModelState.IsValid==true)//only server
             {
-                context.Employees.Add(EmpFromReq);
-                context.SaveChanges();
-                return RedirectToAction("Index", "Employee");
+                try
+                {
+                    context.Employees.Add(EmpFromReq);
+                    context.SaveChanges();//Exception
+                    return RedirectToAction("Index", "Employee");
+                }catch(Exception ex)
+                {
+                    //add error modelstate
+                    //ModelState.AddModelError("DepartmentId", "Please Select Department");
+                    ModelState.AddModelError("AnyKey",ex.InnerException.Message);//div
+                }
             }
             ViewBag.DeptList = context.Departments.ToList();
             return View("New", EmpFromReq);

@@ -17,6 +17,6 @@ namespace TantaWebAp.ViewModels
 
         public int DepartmentId { get; set; }
 
-        public List<Department> DeptList { get; set; }
+        public List<Department>? DeptList { get; set; }
     }
 }
