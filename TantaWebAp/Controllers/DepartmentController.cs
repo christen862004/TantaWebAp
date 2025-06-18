@@ -1,14 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TantaWebAp.Models;
+using TantaWebAp.Repository;
 
 namespace TantaWebAp.Controllers
 {
     public class DepartmentController : Controller
     {
-        ITIContext context = new ITIContext();
+        // ITIContext context = new ITIContext();
+        IDepartmentRepository deptRepository;
+        public DepartmentController(IDepartmentRepository deptrepo)
+        {
+            deptRepository = deptrepo; //new DepartmentRepository();
+        }
         public IActionResult Index()
         {
-            List<Department> deptList= context.Departments.ToList();
+            List<Department> deptList = deptRepository.GetAll();
             return View("Index",deptList);
         }
         //handel anchor tag to open view
@@ -26,8 +32,8 @@ namespace TantaWebAp.Controllers
             if (deptFromReq.Name != null)
             {
                 //save
-                context.Departments.Add(deptFromReq);//id=0
-                context.SaveChanges();//id take value from sql server
+                deptRepository.Add(deptFromReq);
+                deptRepository.Save();
 
                 //Index(); //not normal action , cal action in antoeht controller
                 return RedirectToAction("Index");//, "Department");

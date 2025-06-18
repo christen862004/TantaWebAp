@@ -9,7 +9,10 @@ namespace TantaWebAp.Models
         public ITIContext():base()
         {             
         }
-
+        public ITIContext(DbContextOptions<ITIContext> option):base(option)
+        {
+                
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=TantaDB;Integrated Security=True;Encrypt=False");

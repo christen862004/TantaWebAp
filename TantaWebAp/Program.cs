@@ -1,3 +1,5 @@
+using TantaWebAp.Repository;
+
 namespace TantaWebAp
 {
     public class Program
@@ -8,12 +10,17 @@ namespace TantaWebAp
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container. day 7|8
+            //1) Built In Services and already REgister Container
+            //2) Built in Services but need to register
             builder.Services.AddControllersWithViews();
-
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(45);
             });
+            //3) Custom Service ,and need To Register
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();//register IEmployeeRe
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();//register IEmployeeRe
+            builder.Services.AddScoped<IService, Service>();
 
 
             var app = builder.Build();

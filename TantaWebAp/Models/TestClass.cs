@@ -1,5 +1,59 @@
 ﻿namespace TantaWebAp.Models
 {
+    interface ISort
+    {
+        void SortArr(int[] arr);
+    }
+
+    class BubbleSort:ISort
+    {
+        public void SortArr(int[] arr)
+        {
+            //using Bubble Sort Alg
+        }
+    }
+    class SelectionSort:ISort
+    {
+        public void SortArr(int[] arr)
+        {
+            //using Bubble Sort Alg
+        }
+    }
+
+    class ChirsSort : ISort
+    {
+        public void SortArr(int[] arr)
+        {
+            
+        }
+    }
+
+    //depenency 
+    //DIP : Dont High Level Class based on Low level Class ,high level based absarction ,interface
+    //IOC : dont make classes "Tigh Couple" ,design lossly couple 
+    class MyList //High Level
+    {
+        int[] arr;
+        ISort bSort;//any class implement this interface
+        public MyList(ISort sortAlg) //design pattern (dependcy Injection)
+        {
+            arr = new int[10];
+            bSort = sortAlg;//dont create  ,ask  (injection)
+        }
+        public void Sort()//(ISort sortAlg)
+        {
+            bSort.SortArr(arr);//Bubble
+        }
+    }
+
+
+
+
+
+
+
+
+
     class MyController
     {
         private object _viewdata;
@@ -16,8 +70,6 @@
             set { _viewdata = value; }
         }
     }
-
-
 
     public class Parent<T>
     {
@@ -38,6 +90,12 @@
      
         public void Cal()
         {
+            MyList list1 = new MyList(new BubbleSort());
+            MyList list2 = new MyList(new SelectionSort());
+            MyList list3 = new MyList(new ChirsSort());
+
+
+
             MyController contr1=new MyController();
             contr1.ViewData = new Student();
             Student std1 = (Student)contr1.ViewData;//manual unboxing

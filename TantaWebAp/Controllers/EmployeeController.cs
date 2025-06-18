@@ -1,22 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TantaWebAp.Models;
+using TantaWebAp.Repository;
 using TantaWebAp.ViewModels;
 
 namespace TantaWebAp.Controllers
 {
     public class EmployeeController : Controller
     {
-        ITIContext context = new ITIContext();
+        //  ITIContext context = new ITIContext();
+        
+        
+        IEmployeeRepository EmpRepository;
+        IDepartmentRepository DeptRepository;
         //int counter = 0;//state "value"
-        public EmployeeController()
+        //IOC | DIP using Design patter
+        public EmployeeController(IEmployeeRepository empREpo,IDepartmentRepository deptRepo)
         {
-            
+            EmpRepository = empREpo;// new EmployeeRepository();
+            DeptRepository = deptRepo;// new DepartmentRepository();
         }
         #region Index
         public IActionResult Index()
         {
-            return View("Index", context.Employees.ToList());
+            return View("Index", EmpRepository.GetAll());
         }
         #endregion
 
@@ -37,8 +44,8 @@ namespace TantaWebAp.Controllers
         public IActionResult New()
         {
             //
-           // IEnumerable<SelectListItem> asd = context.Departments.ToList();
-            ViewBag.DeptList=context.Departments.ToList();
+            // IEnumerable<SelectListItem> asd = context.Departments.ToList();
+            ViewBag.DeptList = DeptRepository.GetAll();
             return View("New");
         }
         [HttpPost]//can hande only post req
@@ -49,8 +56,8 @@ namespace TantaWebAp.Controllers
             {
                 try
                 {
-                    context.Employees.Add(EmpFromReq);
-                    context.SaveChanges();//Exception
+                    EmpRepository.Add(EmpFromReq);
+                    EmpRepository.Save();
                     return RedirectToAction("Index", "Employee");
                 }catch(Exception ex)
                 {
@@ -59,7 +66,7 @@ namespace TantaWebAp.Controllers
                     ModelState.AddModelError("AnyKey",ex.InnerException.Message);//div
                 }
             }
-            ViewBag.DeptList = context.Departments.ToList();
+            ViewBag.DeptList =DeptRepository.GetAll();
             return View("New", EmpFromReq);
         }
         #endregion
@@ -68,10 +75,10 @@ namespace TantaWebAp.Controllers
         #region Edit
         public IActionResult Edit(int id)
         {
-            Employee empFromDb = context.Employees.FirstOrDefault(e => e.Id == id);
+            Employee empFromDb = EmpRepository.GetById(id);
 
             if(empFromDb != null) {
-                List<Department> departmentList = context.Departments.ToList();
+                List<Department> departmentList =DeptRepository.GetAll();
                 //decalr
                 EmployeeWithDeptListViewModel empVM=new EmployeeWithDeptListViewModel() { 
                 Id=empFromDb.Id,
@@ -95,19 +102,20 @@ namespace TantaWebAp.Controllers
             if(EmpFromReq.Name!=null & EmpFromReq.Salary > 7000)
             {
                 //org ref
-                Employee empFromDb=context.Employees.FirstOrDefault(e=>e.Id==EmpFromReq.Id);
+                Employee empFromDb=new Employee();
                 //change
                 empFromDb.Salary=EmpFromReq.Salary;
                 empFromDb.Name=EmpFromReq.Name;
                 empFromDb.ImageURL=EmpFromReq.ImageURL;
                 empFromDb.Email=EmpFromReq.Email;
                 empFromDb.DepartmentId=EmpFromReq.DepartmentId;
+                EmpRepository.Update(empFromDb);
                 //saveChange
-                context.SaveChanges();
+                EmpRepository.Save();
                 return RedirectToAction("Index");
             }
             //viewbag
-            EmpFromReq.DeptList = context.Departments.ToList();//refill attend "Fieldd in request data"
+            EmpFromReq.DeptList =DeptRepository.GetAll();//refill attend "Fieldd in request data"
             return View("Edit", EmpFromReq);
         }
         #endregion
@@ -129,7 +137,7 @@ namespace TantaWebAp.Controllers
             ViewBag.Color = "Blue";//ViewData["Color"] ="Blue" override
 
 
-            Employee empModel= context.Employees.FirstOrDefault(e => e.Id == id);
+            Employee empModel= EmpRepository.GetById(id);
             return View("Details",empModel);
             //View edtails  ,Model with type Employee
         }
@@ -139,7 +147,7 @@ namespace TantaWebAp.Controllers
             string msg = "Hello";
             int temp = 20;
             List<string> brch = new() { "NewCapital", "Tanta", "Alex", "Smart" };
-            Employee empModel= context.Employees.FirstOrDefault(e => e.Id == id);
+            Employee empModel = EmpRepository.GetById(id);
 
             //decalre viewMode Object
             EmployeeNameWithColorBrchListMsgTempViewModel EmpVM = new();
