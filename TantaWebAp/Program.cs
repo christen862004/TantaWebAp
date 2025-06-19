@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using TantaWebAp.Filtters;
+using TantaWebAp.Models;
 using TantaWebAp.Repository;
 
 namespace TantaWebAp
@@ -6,17 +9,32 @@ namespace TantaWebAp
     {
         public static void Main(string[] args)
         {
-            
             var builder = WebApplication.CreateBuilder(args);
-
             // Add services to the container. day 7|8
             //1) Built In Services and already REgister Container
             //2) Built in Services but need to register
+            //builder.Services.AddControllersWithViews(options => {
+            //    options.Filters.Add(new HandelErrorAttribute());
+            //});
             builder.Services.AddControllersWithViews();
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(45);
             });
+            //register ITIContext , DbContextOptions
+            //if (builder.Configuration.GetSection("CurentCS").Value == "csLocal")
+            //{
+                builder.Services.AddDbContext<ITIContext>(optionBuilder =>
+                {
+                    optionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
+                });
+            //}
+
+
+
+
+
+
             //3) Custom Service ,and need To Register
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();//register IEmployeeRe
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();//register IEmployeeRe
@@ -58,15 +76,23 @@ namespace TantaWebAp
             }
             app.UseStaticFiles();
 
-            app.UseRouting();
+            app.UseRouting();//security "Mapping""
 
             app.UseSession();//open session - cookie SessionId ,write  -read
 
             app.UseAuthorization();
+            #region Naming Convention Route (MVC)
 
+            //Route constrint
+            //app.MapControllerRoute("rout1", "r1/{age:int:range(20,60)}/{name?}", new {controller="Route",action="Method1" });
+            //app.MapControllerRoute("rout1", "r1", new {controller="Route",action="Method1" });
+            //app.MapControllerRoute("rout2", "r2", new {controller="Route",action="Method2" });
+            //app.MapControllerRoute("rout", "{controller=Employee}/{action=index}/{id?}");
+            #endregion
+            
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}");//middleware DEclare rout ,execute
             #endregion
             app.Run();
         }

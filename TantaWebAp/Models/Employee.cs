@@ -19,6 +19,7 @@ namespace TantaWebAp.Models
 
         //[Range(7000,50000)]
         //[GreaterThan(Number =5000)]
+        
         [Remote("CheckSalary","Employee",AdditionalFields = "Name")]//Employee/CheckSalary?Salary=10000&Name=Manar
         public int Salary { get; set; }
 

@@ -5,10 +5,10 @@ namespace TantaWebAp.Repository
 {
     public class EmployeeRepository:IEmployeeRepository
     {
-        ITIContext context;
-        public EmployeeRepository()
+        ITIContext context;//depency
+        public EmployeeRepository(ITIContext _Context)//create context using ctor that take optios
         {
-            context=new ITIContext();
+            context = _Context;//new ITIContext();
         }
 
 

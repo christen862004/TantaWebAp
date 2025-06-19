@@ -6,17 +6,18 @@ namespace TantaWebAp.Models
     {
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }
-        public ITIContext():base()
-        {             
-        }
-        public ITIContext(DbContextOptions<ITIContext> option):base(option)
+       
+        public ITIContext(DbContextOptions<ITIContext> option) : base(option)//inject ==> Service Provider "REgister" 
         {
-                
+
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=TantaDB;Integrated Security=True;Encrypt=False");
-        }
+        //public ITIContext() : base()
+        //{
+        //}
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=TantaDB;Integrated Security=True;Encrypt=False");
+        //}
         //DbContextOptions
         //1) DBMS "SqlServer"
         //2) Server Name : "."

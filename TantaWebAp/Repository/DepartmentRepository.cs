@@ -6,9 +6,9 @@ namespace TantaWebAp.Repository
     {
         //Department CRUD :Create ,Read ,Update ,DElete
         ITIContext context;
-        public DepartmentRepository()
+        public DepartmentRepository(ITIContext _context)
         {
-            context=new ITIContext();
+            context =_context;// new ITIContext();
         }
         public List<Department> GetAll()
         {

@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using TantaWebAp.Filtters;
 using TantaWebAp.Models;
 using TantaWebAp.Repository;
 
 namespace TantaWebAp.Controllers
 {
+    //[HandelError]
     public class ServiceController : Controller
     {
         private readonly IService service;
@@ -17,6 +20,18 @@ namespace TantaWebAp.Controllers
         {
             ViewBag.Id = service.Id;
             return View();
+        }
+        
+        [HandelError]
+        public IActionResult Method1()
+        {
+            throw new Exception("Some Exception happen");
+        }
+        //Service/MEthod2
+     //   [HandelError]
+        public IActionResult Method2()
+        {
+            throw new Exception("Some Exception happen");
         }
     }
 }

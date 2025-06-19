@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TantaWebAp.Models;
 using TantaWebAp.Repository;
@@ -6,6 +7,7 @@ using TantaWebAp.ViewModels;
 
 namespace TantaWebAp.Controllers
 {
+   
     public class EmployeeController : Controller
     {
         //  ITIContext context = new ITIContext();
@@ -21,6 +23,7 @@ namespace TantaWebAp.Controllers
             DeptRepository = deptRepo;// new DepartmentRepository();
         }
         #region Index
+        
         public IActionResult Index()
         {
             return View("Index", EmpRepository.GetAll());
@@ -166,6 +169,7 @@ namespace TantaWebAp.Controllers
 
         }
         #endregion
+
     }
 }
 //Validation
