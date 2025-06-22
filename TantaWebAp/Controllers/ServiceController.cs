@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Security.Claims;
 using TantaWebAp.Filtters;
 using TantaWebAp.Models;
 using TantaWebAp.Repository;
@@ -15,6 +17,31 @@ namespace TantaWebAp.Controllers
         {
             this.service = service;
         }
+
+
+        //ann +auth
+        public IActionResult Welcome()
+        {
+            if (User.Identity.IsAuthenticated)// == true)
+            {
+                //autho welomce name
+                Claim IdClaim= User.Claims.FirstOrDefault(c => c.Type ==ClaimTypes.NameIdentifier);
+                string id = IdClaim.Value;
+                return Content($"welcome {User.Identity.Name} \t id={id}");
+
+            }
+            //anonums welcome Gust
+            return Content("welcome Gust");
+        }
+
+
+
+
+
+
+
+
+
         //Service/Index
         public IActionResult Index()// (IService ser,Employee emp)
         {

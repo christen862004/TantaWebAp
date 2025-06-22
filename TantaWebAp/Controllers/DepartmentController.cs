@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TantaWebAp.Models;
 using TantaWebAp.Repository;
 
@@ -12,6 +13,7 @@ namespace TantaWebAp.Controllers
         {
             deptRepository = deptrepo; //new DepartmentRepository();
         }
+        [Authorize]//check cookie Identity ,login
         public IActionResult Index()
         {
             List<Department> deptList = deptRepository.GetAll();

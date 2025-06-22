@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TantaWebAp.Filtters;
 using TantaWebAp.Models;
@@ -29,7 +30,13 @@ namespace TantaWebAp
                     optionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
                 });
             //}
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 4;
+                
 
+            }).AddEntityFrameworkStores<ITIContext>();
 
 
 
