@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TantaWebAp.Models;
 using TantaWebAp.ViewModels;
 
@@ -37,6 +38,8 @@ namespace TantaWebAp.Controllers
                 IdentityResult result=await userManager.CreateAsync(user,userFromReq.Password);
                 if(result.Succeeded)
                 {
+                    //add user to role in database
+                    await userManager.AddToRoleAsync(user, "Admin");
                     //create cookie with default claims (id,name,[email],[roles])
                     await signInManager.SignInAsync(user, false);//collection infor store cookie(id,name,email,role)
                     return RedirectToAction("Index", "Department");
@@ -68,7 +71,12 @@ namespace TantaWebAp.Controllers
                     bool found=await userManager.CheckPasswordAsync(userformDB,userFRomREquest.Password);
                     if (found)
                     {
-                        //create cookie
+                        //List<Claim> claims = new List<Claim>();
+                        //claims.Add(new Claim("Address", userformDB.Address));
+
+                        ////create cookie
+                        //await signInManager.SignInWithClaimsAsync
+                        //    (userformDB, userFRomREquest.RememberMe,claims);
                         await signInManager.SignInAsync(userformDB, userFRomREquest.RememberMe);
                         return RedirectToAction("Index", "Department");
                     }

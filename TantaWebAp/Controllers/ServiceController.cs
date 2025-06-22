@@ -22,12 +22,15 @@ namespace TantaWebAp.Controllers
         //ann +auth
         public IActionResult Welcome()
         {
+            //User.IsInRole()
             if (User.Identity.IsAuthenticated)// == true)
             {
                 //autho welomce name
                 Claim IdClaim= User.Claims.FirstOrDefault(c => c.Type ==ClaimTypes.NameIdentifier);
                 string id = IdClaim.Value;
-                return Content($"welcome {User.Identity.Name} \t id={id}");
+                //Claim AddressClaim= User.Claims.FirstOrDefault(c => c.Type == "Address");
+
+                return Content($"welcome {User.Identity.Name} \t id={id} \t ");//Address={AddressClaim.Value}");
 
             }
             //anonums welcome Gust
